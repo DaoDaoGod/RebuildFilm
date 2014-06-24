@@ -3,34 +3,15 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
+
   <servlet>
     <description></description>
-    <display-name>Serach</display-name>
-    <servlet-name>Serach</servlet-name>
-    <servlet-class>service.Serach</servlet-class>
+    <display-name>Handle</display-name>
+    <servlet-name>Handle</servlet-name>
+    <servlet-class>service.Handle</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Serach</servlet-name>
-    <url-pattern>/Serach</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>UserRegister</display-name>
-    <servlet-name>UserRegister</servlet-name>
-    <servlet-class>service.UserRegister</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>UserRegister</servlet-name>
-    <url-pattern>/UserRegister</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>UserLogin</display-name>
-    <servlet-name>UserLogin</servlet-name>
-    <servlet-class>service.UserLogin</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>UserLogin</servlet-name>
-    <url-pattern>/UserLogin</url-pattern>
+    <servlet-name>Handle</servlet-name>
+    <url-pattern>*.do</url-pattern>
   </servlet-mapping>
 </web-app>

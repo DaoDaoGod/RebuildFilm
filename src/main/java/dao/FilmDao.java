@@ -65,7 +65,7 @@ public class FilmDao {
 		    		newFilm.setDescription("description");
 		    		newFilm.setDouBanUrl("filmurl");
 		    		films.add(newFilm);
-		    	    System.out.println(rs.getString("name"));
+		    	    //System.out.println(rs.getString("name"));
 		    	  
 		    	}
 		    	stmt.close();
