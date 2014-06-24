@@ -11,23 +11,24 @@ import dao.UserDao;
 public class HandleRegister implements IHandler {
 
 	private ServletContext context;
+
 	public void setContext(ServletContext context) {
 		// TODO Auto-generated method stub
-		this.context=context;
-		
+		this.context = context;
+
 	}
 
 	public void handle(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
-	try {
-		 String queryString=req.getQueryString();
-		 resp.setCharacterEncoding("utf-8");
-		 PrintWriter out=resp.getWriter();
-		 String name=queryString.split("&")[0];
-		 String password=queryString.split("&")[1];
-		 name=name.substring(9,name.length());
-		 password=password.substring(9,password.length());
-		 if (name.compareTo("") != 0 && password.compareTo("") != 0) {
+		try {
+			String queryString = req.getQueryString();
+			resp.setCharacterEncoding("utf-8");
+			PrintWriter out = resp.getWriter();
+			String name = queryString.split("&")[0];
+			String password = queryString.split("&")[1];
+			name = name.substring(9, name.length());
+			password = password.substring(9, password.length());
+			if (name.compareTo("") != 0 && password.compareTo("") != 0) {
 				name = "\"" + name + "\"";
 				password = "\"" + password + "\"";
 
@@ -41,14 +42,11 @@ public class HandleRegister implements IHandler {
 			} else {
 				out.print("User info error");
 			}
-		 
-		 
-		 
-	} catch (Exception e) {
-		// TODO: handle exception
-	}
-	
-	 
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 	}
 
 }
