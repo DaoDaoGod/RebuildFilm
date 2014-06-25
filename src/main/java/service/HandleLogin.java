@@ -9,21 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import model.User;
 import dao.UserDao;
 
-public class HandleLogin implements IHandler {
+public class HandleLogin {
 
-	private ServletContext context;
-
-	public void setContext(ServletContext context) {
-		// TODO Auto-generated method stub
-		this.context = context;
-	}
-
-	public void handle(HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+	public String login(HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			String queryString = req.getQueryString();
-			resp.setCharacterEncoding("utf-8");
-			PrintWriter out = resp.getWriter();
+		
 			String name = queryString.split("&")[0];
 			String password = queryString.split("&")[1];
 			name = name.substring(10, name.length());
@@ -33,16 +24,19 @@ public class HandleLogin implements IHandler {
 				UserDao userdao = new UserDao();
 				User newuser = userdao.getUserByEmail(name);
 				if (newuser.getPassword().compareTo(password) == 0) {
-					out.println("Login Success");
+					
+					req.setAttribute("my-data2","Login Success");
 				} else {
-					out.println("Login Failed");
+					
+					req.setAttribute("my-data2","Login Failed");
 				}
 			} else {
-				out.println("User info error");
+				req.setAttribute("my-data2","User Error");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return "/logininfo.jsp";
 	}
 
 }

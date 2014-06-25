@@ -3,6 +3,8 @@ package service;
 import java.awt.peer.SystemTrayPeer;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,55 +18,35 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Handle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-/*	Map<String, Class<? extends IHandler>> handlers = new HashMap<String, Class<? extends IHandler>>(
-			64);
-
-	public Handle() {
-		handlers.put("/", IndexHandle.class);
-		handlers.put("/index.html", IndexHandle.class);
-		handlers.put("/HandleSearch.do", HandleSearch.class);
-		handlers.put("/Register.do", HandleRegister.class);
-		handlers.put("/Login.do", HandleLogin.class);
-
-	}*/
-
 	@Override
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String path = request.getRequestURI().substring(
-				request.getContextPath().length());
-		System.out.println("Handle.doGet()");
-		System.out.println(path);
-		String path1=path;
-	    path1=(path1.split("/")[1]);
-	    path1="service."+path1.substring(0,path1.length()-3);
-		System.out.println(path1);
-		//Class<?> klass = handlers.get(path);
-		Class<?> klass = null;
+		String path = request.getRequestURI().substring(request.getContextPath().length());
+		String classname=path.split("/")[1];
+		String methodname=path.split("/")[2];
+		methodname=methodname.substring(0,methodname.length()-3);
+	    classname="service."+classname;
+		Object action = null;
 		try {
-			klass = Class.forName(path1);
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			action = Class.forName(classname).newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		if (klass != null) {
-			try {
-				IHandler handler = (IHandler) klass.newInstance();
-				handler.setContext(getServletContext());
-				handler.handle(request, response);
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		} else {
-			// 404
-			System.out.println("Handle.service()");
-			System.out.println("404");
+		//String path2 = methodname;//path.substring(path.indexOf(path1)+ path1.length());
+		Method m = null;
+		try {
+			m = action.getClass().getDeclaredMethod(methodname, HttpServletRequest.class, HttpServletResponse.class);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
+		String jsp= null;
+		try {
+			jsp = (String) m.invoke(action, request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		getServletContext().getRequestDispatcher(jsp).forward(request, response);
 	}
 
 }
